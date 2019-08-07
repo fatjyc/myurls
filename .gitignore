@@ -1,4 +1,5 @@
 config.yml
 unicorn.pid
+domain.json
 .DS_Store
 .idea/

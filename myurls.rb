@@ -4,12 +4,17 @@ module Myurls
   class App < Sinatra::Base
 
     begin
-      @@url_map = Hash[]
-
       cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
-      @@domain = cnf['domain']
+      @@url_file_path = cnf['url_file_path']
     rescue
-      @@domain = ENV['domain'] || '127.0.0.1'
+      @@url_file_path = ENV['url_file_path'] || 'domain.json'
+    end
+
+    begin
+      url_file = File.read(@@url_file_path)
+      @@url_map = JSON.parse(url_file)
+    rescue
+      @@url_map = Hash[]
     end
 
     configure :development do
@@ -18,12 +23,10 @@ module Myurls
 
     get '/' do
       # erb :index
-      @domain = @@domain
       erb :url
     end
 
     get '/url' do
-      @domain = @@domain
       erb :url
     end
 
@@ -31,6 +34,9 @@ module Myurls
       url = @params[:url]
       short_url = Myurls::Url.shorten url
       @@url_map[short_url] = url
+      File.open(@@url_file_path,"w") do |f|
+        f.write(@@url_map.to_json)
+      end
       short_url
     end
 
