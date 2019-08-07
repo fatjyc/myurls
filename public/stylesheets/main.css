@@ -1,0 +1,42 @@
+body {
+  padding-top: 50px;
+}
+
+.url {
+  padding: 30px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+}
+
+.form-inline {
+  display: flex;
+}
+.input {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.form-inline {
+  margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.domain {
+  margin-bottom: 0;
+}
+a#restart {
+  display: none;
+  float: right;
+  text-align: right;
+  width: 185px;
+  line-height: 34px;
+  height: 34px;
+  text-decoration: none;
+}
+
+#s-url.form-control[readonly] {
+  background-color: #ffffff;
+}

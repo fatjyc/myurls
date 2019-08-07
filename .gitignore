@@ -1,0 +1,4 @@
+config.yml
+unicorn.pid
+.DS_Store
+.idea/
