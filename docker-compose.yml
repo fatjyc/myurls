@@ -1,0 +1,11 @@
+version: "3"
+services:
+  myurls:
+    image: jiong/myurls
+    restart: "always"
+    environment:
+      - url_file_path=domain.json
+    ports:
+      - 9292:9292
+    volumes:
+      - ./domain.json:/app/domain.json

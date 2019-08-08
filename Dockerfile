@@ -10,8 +10,6 @@ WORKDIR /app
 COPY . /app
 RUN bundle install --system
 
-ARG domain
-ENV domain ${domain:-127.0.0.1:9292}
 ARG url_file_path
 ENV url_file_path ${url_file_path:-domain.json}
 EXPOSE 9292
