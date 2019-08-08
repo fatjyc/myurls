@@ -23,7 +23,7 @@ module Myurls
     get '/' do
       # erb :index
       @url = request.host
-      unless request.port == 80
+      unless request.port == 80 || request.port == 443
         @url += ":#{request.port}"
       end
       erb :url
