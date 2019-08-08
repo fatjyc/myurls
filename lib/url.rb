@@ -3,7 +3,8 @@
 module Myurls
   module Url
     def self.shorten(url)
-      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), DateTime.now.to_s, url)[10..16]
+      now = DateTime.now.to_s
+      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), now, url)[10..16]
     end
   end
 end

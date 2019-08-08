@@ -1,9 +1,15 @@
 $(function() {
-  $("#title").text(location.host);
-
   var url = $("#url");
   url.tooltip({ trigger: "manual", title: "Invalid url" });
   var sUrl = $("#s-url");
+  var copy = $("#copy");
+  copy.tooltip({ trigger: "manual", title: "copied" });
+  var clipboard = new ClipboardJS("#copy");
+
+  clipboard.on("success", function() {
+    copy.tooltip("show");
+    setTimeout(() => copy.tooltip("hide"), 1000);
+  });
 
   var submit = function() {
     var urlVal = url.val().trim();
@@ -23,8 +29,11 @@ $(function() {
       var shortUrl = location.protocol + "//" + location.host + "/" + data;
       sUrl.val(shortUrl);
       sUrl.show();
+      copy.show();
       url.hide();
       url.val("");
+    }).fail(function() {
+      url.tooltip("show");
     });
   };
 
@@ -39,6 +48,7 @@ $(function() {
     sUrl.val("");
     url.val("");
     sUrl.hide();
+    copy.hide();
     url.show();
   });
 
