@@ -1,5 +1,8 @@
 config.yml
 unicorn.pid
 domain.json
+db/development.sqlite3
+db/production.sqlite3
+db/test.sqlite3
 .DS_Store
 .idea/

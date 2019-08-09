@@ -3,21 +3,20 @@
 module Myurls
   class App < Sinatra::Base
 
+    register Sinatra::ActiveRecordExtension
     set :show_exceptions, :after_handler
 
     configure :production, :development do
       enable :logging
     end
 
-    begin
-      cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
-      @@url_file_path = cnf['url_file_path']
-    rescue
-      @@url_file_path = ENV['url_file_path'] || 'domain.json'
+    configure :production do
+      set :database, {adapter: "sqlite3", database: "db/production.sqlite3"}
     end
 
     configure :development do
       register Sinatra::Reloader
+      set :database, {adapter: "sqlite3", database: "db/development.sqlite3"}
     end
 
     get '/' do
@@ -46,18 +45,20 @@ module Myurls
         body 'Invalid url'
         return
       end
-      short_url = Myurls::Url.shorten url
-      begin
-        url_file = File.read(@@url_file_path)
-        @@url_map = JSON.parse(url_file)
-      rescue
-        @@url_map = Hash[]
+      logger.info URI.parse(url).host
+      logger.info request.host
+      if URI.parse(url).host == request.host
+        status 400
+        body 'Invalid url'
+        return
       end
-      @@url_map[short_url] = url
-      File.open(@@url_file_path,"w") do |f|
-        f.write(@@url_map.to_json)
-      end
-      short_url
+      now = DateTime.now
+      new_url = Urls.new
+      new_url.url = url
+      new_url.short = Myurls::Utils.shorten url, now.to_s
+      new_url.created_at = now
+      new_url.save!
+      new_url.short
     end
 
     get '/signin' do
@@ -69,16 +70,12 @@ module Myurls
     end
 
     get '/:url' do
-      begin
-        url_file = File.read(@@url_file_path)
-        @@url_map = JSON.parse(url_file)
-      rescue
-        @@url_map = Hash[]
-      end
-      if @@url_map[params[:url]]
-        redirect @@url_map[params[:url]], 301
-      else
+      logger.info "-----> #{params[:url]}"
+      url = Urls.find_by_short(params[:url])
+      if url.nil? or url.url.empty?
         halt 404
+      else
+        redirect url.url, 301
       end
     end
   end

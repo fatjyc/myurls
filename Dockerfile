@@ -1,4 +1,4 @@
-FROM ruby:2.5.3
+FROM ruby:2.6.3
 MAINTAINER Jiang Yucheng <fatjyc@gmail.com>
 
 RUN apt-get update && \
@@ -10,7 +10,6 @@ WORKDIR /app
 COPY . /app
 RUN bundle install --system
 
-ARG url_file_path
-ENV url_file_path ${url_file_path:-domain.json}
+ENV APP_ENV production
 EXPOSE 9292
 ENTRYPOINT bundle exec unicorn -c config/unicorn.rb

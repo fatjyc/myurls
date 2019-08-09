@@ -3,6 +3,7 @@ require 'rubygems'
 require 'sinatra/base'
 require 'sinatra/json'
 require 'sinatra/reloader'
+require "sinatra/activerecord"
 
 require 'yaml'
 require 'erb'
@@ -12,6 +13,6 @@ require 'uri'
 require 'json'
 
 require File.join(File.dirname(__FILE__), '..', 'myurls')
-%w[url].each do |lib|
+%w[utils urls].each do |lib|
   require File.join(File.dirname(__FILE__), '..', 'lib', lib)
 end

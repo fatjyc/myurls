@@ -7,4 +7,8 @@ gem 'json'
 
 gem 'unicorn'
 
+gem "sinatra-activerecord"
+gem "sqlite3"
+gem "rake"
+
 gem 'solargraph', group: :development
