@@ -11,7 +11,11 @@ $(function() {
     setTimeout(() => copy.tooltip("hide"), 1000);
   });
 
+  var submitting = false;
   var submit = function() {
+    if (submitting) {
+      return;
+    }
     var urlVal = url.val().trim();
     if (urlVal.length === 0) {
       url.tooltip("show");
@@ -23,6 +27,8 @@ $(function() {
       url.tooltip("show");
       return;
     }
+    submitting = true;
+    $("#start").attr("disabled", "disabled");
     $.post("/url", { url: urlVal }, function(data) {
       $("#start").hide();
       $("#restart").show();
@@ -32,8 +38,12 @@ $(function() {
       copy.show();
       url.hide();
       url.val("");
+      submitting = false;
+      $("#start").removeAttr("disabled");
     }).fail(function() {
       url.tooltip("show");
+      submitting = false;
+      $("#start").removeAttr("disabled");
     });
   };
 
