@@ -12,4 +12,4 @@ RUN bundle install --system
 
 ENV APP_ENV production
 EXPOSE 9292
-ENTRYPOINT bundle exec unicorn -c config/unicorn.rb
+# ENTRYPOINT APP_ENV=production bundle exec unicorn -c config/unicorn.rb
