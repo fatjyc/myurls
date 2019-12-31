@@ -5,6 +5,8 @@ gem 'sinatra-contrib'
 
 gem 'json'
 
+gem 'haml'
+
 gem 'unicorn'
 
 gem "sinatra-activerecord"

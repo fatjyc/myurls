@@ -1,0 +1,13 @@
+.container{:style => "margin-top: 60px"}
+  .url
+    .form
+      %form#url-form.form-inline{:action => "/url", :method => "post"}
+        .form-group
+          %p#title.domain{:style => "margin-bottom: 0"}= @url
+        .form-group.input
+          %input#url.form-control{:placeholder => "URL", :style => "width: 100%", :type => "text"}/
+          %input#s-url.form-control{:placeholder => "URL", :readonly => "readonly", :style => "width: 100%; display: none;", :type => "text"}/
+        .from-group
+          %button#start.btn.btn-default{:type => "submit"} Shorten
+          %button#copy.btn.btn-default{"data-clipboard-target" => "#s-url", :style => "display: none;"} Copy
+          %a#restart{:href => "javascript:void(0)"} Shorten another URL

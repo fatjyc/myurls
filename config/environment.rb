@@ -9,6 +9,7 @@ require 'yaml'
 require 'erb'
 require 'net/https'
 require 'uri'
+require 'haml'
 
 require 'json'
 

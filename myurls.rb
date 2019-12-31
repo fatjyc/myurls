@@ -20,16 +20,15 @@ module Myurls
     end
 
     get '/' do
-      # erb :index
       @url = request.host
       unless request.port == 80 || request.port == 443
         @url += ":#{request.port}"
       end
-      erb :url
+      haml :url
     end
 
     get '/url' do
-      erb :url
+      haml :url
     end
 
     post '/url' do
@@ -62,11 +61,11 @@ module Myurls
     end
 
     get '/signin' do
-      erb :signin
+      haml :signin
     end
 
     get '/signup' do
-      erb :signup
+      haml :signup
     end
 
     get '/:url' do
