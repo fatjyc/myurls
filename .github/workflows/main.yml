@@ -1,0 +1,31 @@
+name: main
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.3
+    - name: Test with Rake
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        bundle exec rake
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Publish Docker Images to GPR
+      uses: machine-learning-apps/gpr-docker-publish@v1.3
+      with:
+        IMAGE_NAME: docker.pkg.github.com/fatjyc/myurls/server
+        TAG: $(git rev-parse --short "$GITHUB_SHA")
+        DOCKERFILE_PATH: Dockerfile
+        BUILD_CONTEXT: .
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
