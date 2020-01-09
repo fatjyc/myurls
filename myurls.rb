@@ -19,15 +19,16 @@ module Myurls
       set :database, {adapter: "sqlite3", database: "db/development.sqlite3"}
     end
 
+    configure :test do
+      register Sinatra::Reloader
+      set :database, {adapter: "sqlite3", database: "db/test.sqlite3"}
+    end
+
     get '/' do
       @url = request.host
       unless request.port == 80 || request.port == 443
         @url += ":#{request.port}"
       end
-      haml :url
-    end
-
-    get '/url' do
       haml :url
     end
 
