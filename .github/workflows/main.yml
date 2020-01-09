@@ -21,12 +21,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag server:$(git rev-parse --short "$GITHUB_SHA")
+
     - name: Publish Docker Images to GPR
-      uses: machine-learning-apps/gpr-docker-publish@v1.3
+      uses: machine-learning-apps/gpr-docker-publish@master
       with:
-        IMAGE_NAME: docker.pkg.github.com/fatjyc/myurls/server
-        TAG: $(git rev-parse --short "$GITHUB_SHA")
-        DOCKERFILE_PATH: Dockerfile
-        BUILD_CONTEXT: .
+        username: fatjyc
+        IMAGE_NAME: server
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
