@@ -40,7 +40,7 @@ module Myurls
         body 'Invalid url'
         return
       end
-      unless url =~ URI::regexp
+      unless url =~ URI.regexp
         status 400
         body 'Invalid url'
         return

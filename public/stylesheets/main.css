@@ -26,14 +26,12 @@ body {
 
 .form-inline {
   display: flex;
+  margin-bottom: 0;
 }
+
 .input {
   flex-grow: 1;
   margin-left: 10px;
-}
-
-.form-inline {
-  margin-bottom: 0;
 }
 
 .form-group {
@@ -57,7 +55,7 @@ a#restart {
 }
 
 #s-url.form-control[readonly] {
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .footer {

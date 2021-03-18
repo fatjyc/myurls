@@ -1,8 +1,6 @@
 FROM ruby:2.6.3
-MAINTAINER Jiang Yucheng <fatjyc@gmail.com>
 
-RUN apt-get update && \
-    apt-get install -y net-tools
+RUN apt-get update && apt-get install -y --no-install-recommends net-tools
 
 RUN mkdir /app
 
