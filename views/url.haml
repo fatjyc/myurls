@@ -1,13 +1,20 @@
-.container{:style => "margin-top: 60px"}
-  .url
-    .form
-      %form#url-form.form-inline{:action => "/url", :method => "post"}
-        .form-group
-          %p#title.domain{:style => "margin-bottom: 0"}= @url
-        .form-group.input
-          %input#url.form-control{:placeholder => "URL", :style => "width: 100%", :type => "text"}/
-          %input#s-url.form-control{:placeholder => "URL", :readonly => "readonly", :style => "width: 100%; display: none;", :type => "text"}/
-        .from-group
-          %button#start.btn.btn-default{:type => "submit"} Shorten
-          %button#copy.btn.btn-default{"data-clipboard-target" => "#s-url", :style => "display: none;"} Copy
-          %a#restart{:href => "javascript:void(0)"} Shorten another URL
+%div#form{class: "w-4/5 mx-auto p-10 mt-40 bg-white rounded-md shadow-xl"}
+  %from.mt-1.flex.rounded-md{:action => "/url", :method => "post"}
+    %span.inline-flex.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.sm:text-sm
+      = @url
+    .has-tooltip.flex-1.min-w-0.w-full
+      %span#input-tooltip.tooltip.text-xs.text-white.bg-black.rounded-sm.px-2.py-1.-top-8{class: "left-1/2"} Invalid url
+      %input#url.border.border-gray-300.flex-1.min-w-0.block.w-full.px-3.py-2.rounded-none.rounded-r-0.focus:ring-indigo-500.focus:border-indigo-500.sm:text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text"}/
+    %button#start.relative.inline-flex.items-center.space-x-2.px-4.py-2.border.border-gray-300.border-l-0.text-sm.font-medium.rounded-r-md.text-gray-700.bg-gray-50.hover:bg-gray-100.disabled:bg-gray-400{:type => "submit"}
+      Shorten
+
+%div#result{class: "w-4/5 mx-auto p-10 mt-40 bg-white rounded-md shadow-xl hidden"}
+  %from.mt-1.flex.rounded-md{:action => "/url", :method => "post"}
+    %span.inline-flex.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.sm:text-sm
+      = @url
+    %input#s-url.border.border-gray-300.flex-1.min-w-0.w-full.px-3.py-2.rounded-none.rounded-r-0.focus:ring-indigo-500.focus:border-indigo-500.sm:text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text", :readonly => "readonly"}/
+    .has-tooltip
+      %span#copy-tooltip.tooltip.text-xs.text-white.bg-black.rounded-sm.px-2.py-1.-top-8.left-1 copied
+      %button#copy.relative.inline-flex.items-center.space-x-2.px-4.py-2.border.border-gray-300.border-l-0.text-sm.font-medium.rounded-r-md.text-gray-700.bg-gray-50.hover:bg-gray-100{"data-clipboard-target" => "#s-url"}
+        Copy
+    %a#restart.ml-8.text-blue-500.hover:text-blue-400{:style => "height: 38px; line-height: 38px;",:href => "javascript:void(0)"} Shorten another URL

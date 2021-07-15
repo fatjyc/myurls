@@ -1,72 +1,67 @@
-$(function() {
+$(function () {
+  var form = $("#form");
+  var result = $("#result");
   var url = $("#url");
-  url.tooltip({ trigger: "manual", title: "Invalid url" });
+  var inputTooltip = $("#input-tooltip");
   var sUrl = $("#s-url");
-  var copy = $("#copy");
-  copy.tooltip({ trigger: "manual", title: "copied" });
   var clipboard = new ClipboardJS("#copy");
 
-  clipboard.on("success", function() {
-    copy.tooltip("show");
-    setTimeout(() => copy.tooltip("hide"), 1000);
+  var copyTooltip = $("#copy-tooltip");
+
+  clipboard.on("success", function () {
+    copyTooltip.css("visibility", "visible");
+    setTimeout(() => copyTooltip.css("visibility", "hidden"), 1000);
   });
 
   var submitting = false;
-  var submit = function() {
+  var submit = function () {
     if (submitting) {
       return;
     }
     var urlVal = url.val().trim();
     if (urlVal.length === 0) {
-      url.tooltip("show");
+      inputTooltip.css("visibility", "visible");
       return;
     }
     var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
     var regex = new RegExp(expression);
     if (!urlVal.match(regex)) {
-      url.tooltip("show");
+      inputTooltip.css("visibility", "visible");
       return;
     }
     submitting = true;
     $("#start").attr("disabled", "disabled");
-    $.post("/url", { url: urlVal }, function(data) {
-      $("#start").hide();
-      $("#restart").show();
+    $.post("/url", { url: urlVal }, function (data) {
       var shortUrl = location.protocol + "//" + location.host + "/" + data;
       sUrl.val(shortUrl);
-      sUrl.show();
-      copy.show();
-      url.hide();
       url.val("");
       submitting = false;
       $("#start").removeAttr("disabled");
-    }).fail(function() {
-      url.tooltip("show");
+      form.hide();
+      result.show();
+    }).fail(function () {
+      inputTooltip.css("visibility", "visible");
       submitting = false;
       $("#start").removeAttr("disabled");
     });
   };
 
-  $("#url-form").on("submit", function(e) {
-    e.preventDefault();
+  $("#start").on("click", function (e) {
     submit();
   });
 
-  $("#restart").on("click", function() {
-    $("#start").show();
-    $("#restart").hide();
+  $("#restart").on("click", function () {
     sUrl.val("");
     url.val("");
-    sUrl.hide();
-    copy.hide();
-    url.show();
+    result.hide();
+    form.show();
   });
 
-  url.on("input", function(e) {
-    url.tooltip("hide");
+  url.on("input", function (e) {
+    inputTooltip.css("visibility", "hidden");
   });
 
-  url.on("keyup", function(e) {
+  url.on("keyup", function (e) {
     if (e.which === 13) {
       submit();
     }
