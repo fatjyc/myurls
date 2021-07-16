@@ -24,3 +24,44 @@
 .has-tooltip:hover .tooltip {
   z-index: 50;
 }
+
+#bar {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition-duration: 0.8s;
+  -moz-transition-duration: 0.8s;
+  -ms-transition-duration: 0.8s;
+  -o-transition-duration: 0.8s;
+  transition-duration: 0.8s;
+  height: 118px;
+}
+
+#bar .side {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  left: 0;
+  top: 0;
+}
+
+#bar.flipped {
+  -webkit-transform: rotateX(-180deg);
+  transform: rotateX(-180deg);
+}
+
+#bar.flipped #front {
+  z-index: 0;
+}
+
+#bar.flipped #back {
+  z-index: 10;
+}
+
+#front {
+  z-index: 10;
+}
+
+#back {
+  -webkit-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+  z-index: 0;
+}

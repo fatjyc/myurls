@@ -1,6 +1,7 @@
 $(function () {
-  var form = $("#form");
-  var result = $("#result");
+  var bar = $("#bar");
+  var front = $("#front");
+  var back = $("#back");
   var url = $("#url");
   var inputTooltip = $("#input-tooltip");
   var sUrl = $("#s-url");
@@ -37,8 +38,9 @@ $(function () {
       url.val("");
       submitting = false;
       $("#start").removeAttr("disabled");
-      form.hide();
-      result.show();
+      bar.toggleClass("flipped");
+      // front.toggleClass("show");
+      // back.toggleClass("show");
     }).fail(function () {
       inputTooltip.css("visibility", "visible");
       submitting = false;
@@ -53,8 +55,9 @@ $(function () {
   $("#restart").on("click", function () {
     sUrl.val("");
     url.val("");
-    result.hide();
-    form.show();
+    bar.toggleClass("flipped");
+    // back.toggleClass("show");
+    // front.toggleClass("show");
   });
 
   url.on("input", function (e) {
