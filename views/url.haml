@@ -6,14 +6,14 @@
           = @url
         .has-tooltip.flex-1.min-w-0.w-full
           %span#input-tooltip.tooltip.text-xs.text-white.bg-black.rounded-sm.px-2.py-1.-top-8{class: "left-1/2"} Invalid url
-          %input#url.border.border-gray-300.flex-1.min-w-0.block.w-full.px-3.py-2.rounded-l-md.sm:rounded-none.focus:ring-indigo-500.focus:border-indigo-500.text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text"}/
+          %input#url.border.border-gray-300.flex-1.min-w-0.block.w-full.px-3.py-2.rounded-l-md.sm:rounded-none.focus:outline-none.focus:ring-indigo-500.focus:border-indigo-500.text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text"}/
         %button#start.relative.inline-flex.items-center.space-x-2.px-4.py-2.border.border-gray-300.border-l-0.text-sm.font-medium.rounded-r-md.text-gray-700.bg-gray-50.hover:bg-gray-100.disabled:bg-gray-400{:type => "submit"}
           Shorten
 
     #back.side.absolute.w-full.p-10.bg-white.rounded-md.shadow-xl.flex
       %span.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.text-sm.hidden.sm:inline-flex
         = @url
-      %input#s-url.border.border-gray-300.flex-1.min-w-0.w-full.px-3.py-2.rounded-l-md.sm:rounded-none.focus:ring-indigo-500.focus:border-indigo-500.text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text", :readonly => "readonly"}/
+      %input#s-url.border.border-gray-300.flex-1.min-w-0.w-full.px-3.py-2.rounded-l-md.sm:rounded-none.focus:outline-none.focus:ring-indigo-500.focus:border-indigo-500.text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text", :readonly => "readonly"}/
       .has-tooltip
         %span#copy-tooltip.tooltip.text-xs.text-white.bg-black.rounded-sm.px-2.py-1.-top-8.left-1 copied
         %button#copy.relative.inline-flex.items-center.space-x-2.px-4.py-2.border.border-gray-300.border-l-0.text-sm.font-medium.rounded-r-md.text-gray-700.bg-gray-50.hover:bg-gray-100{"data-clipboard-target" => "#s-url"}
