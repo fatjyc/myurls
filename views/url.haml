@@ -1,7 +1,7 @@
 .mt-40
   %div#bar{class: "relative mx-auto w-4/5"}
     #front.side.absolute.w-full.p-10.bg-white.rounded-md.shadow-xl
-      %from.flex.rounded-md{:action => "/url", :method => "post"}
+      %form.flex.rounded-md{:action => "/url", :method => "post"}
         %span.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.text-sm.hidden.sm:inline-flex
           = @url
         .has-tooltip.flex-1.min-w-0.w-full

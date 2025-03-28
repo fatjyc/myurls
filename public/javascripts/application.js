@@ -6,12 +6,46 @@ $(function () {
   var inputTooltip = $("#input-tooltip");
   var sUrl = $("#s-url");
   var clipboard = new ClipboardJS("#copy");
+  var linksClipboard = new ClipboardJS(".copy-btn");
 
   var copyTooltip = $("#copy-tooltip");
 
   clipboard.on("success", function () {
     copyTooltip.css("visibility", "visible");
     setTimeout(() => copyTooltip.css("visibility", "hidden"), 1000);
+  });
+
+  linksClipboard.on("success", function (e) {
+    var btn = $(e.trigger);
+    var originalText = btn.text();
+    btn.text("Copied!");
+    setTimeout(() => btn.text(originalText), 2000);
+  });
+
+  // Handle delete buttons
+  $(".delete-btn").on("click", function () {
+    var btn = $(this);
+    var short = btn.data("short");
+
+    if (confirm("Are you sure you want to delete this URL?")) {
+      btn.prop("disabled", true);
+      $.ajax({
+        url: "/url/" + short,
+        method: "DELETE",
+        success: function () {
+          btn.closest("tr").fadeOut(400, function () {
+            $(this).remove();
+            if ($("tbody tr").length === 0) {
+              location.reload();
+            }
+          });
+        },
+        error: function () {
+          alert("Failed to delete the URL. Please try again.");
+          btn.prop("disabled", false);
+        },
+      });
+    }
   });
 
   var submitting = false;
@@ -24,7 +58,8 @@ $(function () {
       inputTooltip.css("visibility", "visible");
       return;
     }
-    var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+    var expression =
+      /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
     var regex = new RegExp(expression);
     if (!urlVal.match(regex)) {
       inputTooltip.css("visibility", "visible");
@@ -49,6 +84,7 @@ $(function () {
   };
 
   $("#start").on("click", function (e) {
+    e.preventDefault();
     submit();
   });
 

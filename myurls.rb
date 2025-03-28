@@ -2,6 +2,7 @@
 
 module Myurls
   class App < Sinatra::Base
+    set :haml, :escape_html => false
 
     register Sinatra::ActiveRecordExtension
     set :show_exceptions, :after_handler
@@ -30,6 +31,11 @@ module Myurls
         @url += ":#{request.port}"
       end
       haml :url
+    end
+
+    get '/links' do
+      @links = Urls.all
+      haml :links
     end
 
     post '/url' do
@@ -61,14 +67,6 @@ module Myurls
       new_url.short
     end
 
-    get '/signin' do
-      haml :signin
-    end
-
-    get '/signup' do
-      haml :signup
-    end
-
     get '/:url' do
       logger.info "-----> #{params[:url]}"
       url = Urls.find_by_short(params[:url])
@@ -76,6 +74,18 @@ module Myurls
         halt 404
       else
         redirect url.url, 301
+      end
+    end
+
+    delete '/url/:short' do
+      url = Urls.find_by_short(params[:short])
+      if url.nil?
+        status 404
+        body 'URL not found'
+      else
+        url.destroy
+        status 200
+        body 'OK'
       end
     end
   end

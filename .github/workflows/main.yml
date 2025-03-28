@@ -6,30 +6,45 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1.66.0
-      with:
-        ruby-version: 2.6.3
-    - name: Test with Rake
-      run: |
-        gem install bundler
-        sudo apt-get install libsqlite3-dev
-        bundle install --jobs 4 --retry 3
-        bundle exec rake test
+      - uses: actions/checkout@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.229.0
+        with:
+          ruby-version: 3.2.2
+      - name: Test with Rake
+        run: |
+          gem install bundler
+          sudo apt-get install libsqlite3-dev
+          bundle install --jobs 4 --retry 3
+          bundle exec rake test
 
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
+      - uses: actions/checkout@v3
 
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag server:$(git rev-parse --short "$GITHUB_SHA")
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
-    - name: Publish Docker Images to GPR
-      uses: machine-learning-apps/gpr-docker-publish@master
-      with:
-        username: fatjyc
-        IMAGE_NAME: server
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest

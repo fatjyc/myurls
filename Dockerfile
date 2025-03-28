@@ -1,15 +1,23 @@
-FROM ruby:2.6.3
+FROM ruby:3.2.2-slim
 
-RUN apt-get update && apt-get install -y --no-install-recommends net-tools \
-      && apt-get clean \
-      && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libsqlite3-dev \
+    net-tools \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY . /app
-RUN bundle install --system
 
-ENV APP_ENV production
+RUN mkdir -p /app/db
+
+COPY Gemfile Gemfile.lock ./
+
+RUN bundle install --jobs 4 --retry 3
+
+COPY . .
+
+ENV APP_ENV=production \
+    RACK_ENV=production
+
 EXPOSE 9292
-# ENTRYPOINT APP_ENV=production bundle exec unicorn -c config/unicorn.rb
