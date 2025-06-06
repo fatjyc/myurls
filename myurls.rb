@@ -12,17 +12,17 @@ module Myurls
     end
 
     configure :production do
-      set :database, {adapter: "sqlite3", database: "db/production.sqlite3"}
+      set :database_file, "config/database.yml"
     end
 
     configure :development do
       register Sinatra::Reloader
-      set :database, {adapter: "sqlite3", database: "db/development.sqlite3"}
+      set :database_file, "config/database.yml"
     end
 
     configure :test do
       register Sinatra::Reloader
-      set :database, {adapter: "sqlite3", database: "db/test.sqlite3"}
+      set :database_file, "config/database.yml"
     end
 
     get '/' do

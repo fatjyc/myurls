@@ -1,0 +1,19 @@
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  reaping_frequency: 10
+
+development:
+  <<: *default
+  database: db/development.sqlite3
+
+test:
+  <<: *default
+  database: db/test.sqlite3
+
+production:
+  <<: *default
+  database: db/production.sqlite3
+  pool: 1 # 减少连接池大小
+  reaping_frequency: nil # 禁用连接回收
