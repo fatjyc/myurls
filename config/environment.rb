@@ -14,6 +14,6 @@ require 'haml'
 require 'json'
 
 require File.join(File.dirname(__FILE__), '..', 'myurls')
-%w[utils urls].each do |lib|
+%w[utils urls xip_dns].each do |lib|
   require File.join(File.dirname(__FILE__), '..', 'lib', lib)
 end

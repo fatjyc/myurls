@@ -1,0 +1,7 @@
+.git
+.idea
+.DS_Store
+Dockerfile.runtime
+unicorn.pid
+db/*.sqlite3
+db/*.sqlite3-*

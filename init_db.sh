@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-cur_dir=$(cd $(dirname "$0"); pwd)
+set -euo pipefail
 
-rm -fr "${cur_dir}"/db/production.sqlite3
+cur_dir=$(cd "$(dirname "$0")"; pwd)
+cd "$cur_dir"
 
-docker run --rm -v "${cur_dir}"/db:/app/db -e APP_ENV=production -w /app jiong/myurls bash -cx "bundle exec rake db:migrate"
+mkdir -p db
+docker compose build myurls
+docker compose run --rm myurls bundle exec rake db:migrate
