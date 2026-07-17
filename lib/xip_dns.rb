@@ -61,6 +61,8 @@ module Myurls
           response = answer(packet, zone: zone, default_ip: default_ip, nameserver: nameserver, ttl: ttl)
           udp.send(response, 0, sender[3], sender[1]) if response
         end
+      rescue IOError, Errno::EBADF
+        nil
       end
 
       tcp_thread = Thread.new do
@@ -77,6 +79,8 @@ module Myurls
             connection.close
           end
         end
+      rescue IOError, Errno::EBADF
+        nil
       end
 
       warn "xip DNS listening on #{host}:#{port} for #{normalize_name(zone)}"

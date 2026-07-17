@@ -2,7 +2,7 @@
 # note the trailing slash in this example
 @dir = File.expand_path('../../', __FILE__)
 
-worker_processes 2
+worker_processes Integer(ENV.fetch('WEB_CONCURRENCY', '2'))
 working_directory @dir
 
 timeout 30

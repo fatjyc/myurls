@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+children = {}
+stopping = false
+
+commands = {
+  'web' => %w[bundle exec unicorn -c config/unicorn.rb]
+}
+
+if ENV.fetch('ENABLE_XIP_DNS', 'false') == 'true'
+  commands['dns'] = %w[bundle exec ruby bin/xip-dns]
+end
+
+terminate = lambda do |signal|
+  children.each_value do |pid|
+    Process.kill(signal, -pid)
+  rescue Errno::ESRCH
+    nil
+  end
+end
+
+Signal.trap('TERM') do
+  stopping = true
+  terminate.call('TERM')
+end
+Signal.trap('INT') do
+  stopping = true
+  terminate.call('INT')
+end
+
+commands.each do |name, command|
+  pid = Process.spawn(*command, pgroup: true)
+  children[name] = pid
+  warn "started #{name} process pid=#{pid}"
+end
+
+finished_pid, status = Process.wait2
+finished_name = children.key(finished_pid) || finished_pid.to_s
+children.delete(finished_name)
+
+unless stopping
+  warn "#{finished_name} process exited unexpectedly (#{status.inspect}); stopping container"
+  terminate.call('TERM')
+end
+
+Process.waitall
+exit(stopping ? 0 : (status.exitstatus || 1))

@@ -210,6 +210,34 @@ docker compose restart myurls
 docker compose --profile xip down
 ```
 
+### Run web and DNS in one container
+
+The default Compose file keeps web and DNS as separate services so either can
+be upgraded or restarted independently. On a small server they can share one
+container through the included supervisor:
+
+```yaml
+services:
+  myurls:
+    command: bundle exec ruby bin/myurls-server
+    environment:
+      - APP_ENV=production
+      - RACK_ENV=production
+      - ENABLE_XIP_DNS=true
+      - DNS_PORT=8053
+      - DNS_ZONE=xip.example.com
+      - DNS_DEFAULT_IP=203.0.113.10
+      - DNS_NAMESERVER=short.example.com
+    ports:
+      - "127.0.0.1:9292:9292"
+      - "53:8053/tcp"
+      - "53:8053/udp"
+```
+
+The supervisor forwards termination signals and stops the container if either
+Unicorn or the DNS process exits unexpectedly, allowing the restart policy to
+recover both services.
+
 ## Tests
 
 Run the test suite inside the production Ruby environment:
