@@ -8,6 +8,28 @@ $(function () {
   var clipboard = new ClipboardJS("#copy");
   var linksClipboard = new ClipboardJS(".copy-btn");
 
+  var xipInput = $("#xip-ip");
+  var xipResult = $("#xip-result");
+  var xipStatus = $("#xip-status");
+
+  xipInput.on("input", function () {
+    var ip = xipInput.val().trim();
+    var parts = ip.split(".");
+    var valid =
+      parts.length === 4 &&
+      parts.every(function (part) {
+        return /^\d{1,3}$/.test(part) && Number(part) <= 255;
+      });
+
+    if (valid) {
+      xipResult.text(parts.join("-") + ".xip.1gb.xyz");
+      xipStatus.text("Ready to resolve");
+    } else {
+      xipResult.text("Enter a valid IPv4 address");
+      xipStatus.text("Four octets, each from 0 to 255");
+    }
+  });
+
   var copyTooltip = $("#copy-tooltip");
 
   clipboard.on("success", function () {

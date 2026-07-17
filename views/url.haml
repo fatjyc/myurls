@@ -1,21 +1,51 @@
-.mt-40
-  %div#bar{class: "relative mx-auto w-4/5"}
-    #front.side.absolute.w-full.p-10.bg-white.rounded-md.shadow-xl
-      %form.flex.rounded-md{:action => "/url", :method => "post"}
-        %span.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.text-sm.hidden.sm:inline-flex
-          = @url
-        .has-tooltip.flex-1.min-w-0.w-full
-          %span#input-tooltip.tooltip.text-xs.text-white.bg-black.rounded-sm.px-2.py-1.-top-8{class: "left-1/2"} Invalid url
-          %input#url.border.border-gray-300.flex-1.min-w-0.block.w-full.px-3.py-2.rounded-l-md.sm:rounded-none.focus:outline-none.focus:ring-indigo-500.focus:border-indigo-500.text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text"}/
-        %button#start.relative.inline-flex.items-center.space-x-2.px-4.py-2.border.border-gray-300.border-l-0.text-sm.font-medium.rounded-r-md.text-gray-700.bg-gray-50.hover:bg-gray-100.disabled:bg-gray-400{:type => "submit"}
-          Shorten
+%main.shortener-shell
+  %section.shortener-hero
+    .shortener-copy
+      .shortener-kicker SHORT LINKS / LONG LIFE
+      %h1
+        Make the web
+        %em pocket-sized.
+      %p
+        Paste a long URL. Get a tiny one on
+        %strong 1gb.xyz.
+        No accounts, dashboards, or unnecessary ceremony.
 
-    #back.side.absolute.w-full.p-10.bg-white.rounded-md.shadow-xl.flex
-      %span.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.text-sm.hidden.sm:inline-flex
-        = @url
-      %input#s-url.border.border-gray-300.flex-1.min-w-0.w-full.px-3.py-2.rounded-l-md.sm:rounded-none.focus:outline-none.focus:ring-indigo-500.focus:border-indigo-500.text-sm.border-gray-300{name: "url", placeholder: "URL", type: "text", :readonly => "readonly"}/
-      .has-tooltip
-        %span#copy-tooltip.tooltip.text-xs.text-white.bg-black.rounded-sm.px-2.py-1.-top-8.left-1 copied
-        %button#copy.relative.inline-flex.items-center.space-x-2.px-4.py-2.border.border-gray-300.border-l-0.text-sm.font-medium.rounded-r-md.text-gray-700.bg-gray-50.hover:bg-gray-100{"data-clipboard-target" => "#s-url"}
-          Copy
-      %a#restart.ml-8.text-blue-500.hover:text-blue-400{:style => "height: 38px; line-height: 38px;",:href => "javascript:void(0)"} Shorten another URL
+      .shortener-notes
+        %span 7-character links
+        %span Instant redirects
+        %span Made in 2019
+
+    .shortener-stage
+      .shortener-stamp 001 GB
+      #bar.shortener-flipper
+        #front.side.shortener-panel
+          %form{:action => "/url", :method => "post"}
+            %label{:for => "url"} Your extremely long URL
+            .shortener-input-row
+              .shortener-domain= @url
+              .has-tooltip.shortener-input-wrap
+                %span#input-tooltip.tooltip Invalid URL — include https://
+                %input#url{name: "url", placeholder: "https://example.com/a/very/long/path", type: "url", autocomplete: "url"}/
+              %button#start{:type => "submit"}
+                %span Shrink it
+                %b ↘
+          .shortener-example
+            %span BEFORE
+            %del https://the-internet.example.com/needlessly/long/address
+
+        #back.side.shortener-panel.shortener-result
+          %div
+            %span.shortener-result-label YOUR SMALLER INTERNET
+            %input#s-url{name: "url", type: "text", :readonly => "readonly"}/
+          .shortener-result-actions
+            .has-tooltip
+              %span#copy-tooltip.tooltip Copied
+              %button#copy{"data-clipboard-target" => "#s-url"} Copy link
+            %a#restart{:href => "javascript:void(0)"} Shorten another ↻
+
+  %section.shortener-manifesto
+    .manifesto-number 01
+    %h2 The useful part of a URL, without the luggage.
+    %p
+      Short links are easier to type, print, share, and remember. This service does one job and stays out of the way.
+    %a{href: "https://xip.1gb.xyz"} Need an IP-based hostname? Try xip.1gb.xyz →

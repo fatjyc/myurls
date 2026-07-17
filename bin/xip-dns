@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+require File.expand_path('../lib/xip_dns', __dir__)
+
+Myurls::XipDns.run(
+  host: ENV.fetch('DNS_HOST', '0.0.0.0'),
+  port: Integer(ENV.fetch('DNS_PORT', '8053')),
+  zone: ENV.fetch('DNS_ZONE', 'xip.1gb.xyz'),
+  default_ip: ENV.fetch('DNS_DEFAULT_IP'),
+  nameserver: ENV.fetch('DNS_NAMESERVER', '1gb.xyz'),
+  ttl: Integer(ENV.fetch('DNS_TTL', '300'))
+)

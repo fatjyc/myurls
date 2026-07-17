@@ -6,12 +6,12 @@
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
     %link{:href => "/favicon.ico", :rel => "icon", :type => "image/x-icon"}/
     %link{:href => "/stylesheets/lib/tailwind.min.css", :rel => "stylesheet"}/
-    %link{:href => "/stylesheets/main.css", :rel => "stylesheet"}/
-    %title Myurls
-  %body.font-sans.antialiased
+    %link{:href => "/stylesheets/main.css?v=20260717-3", :rel => "stylesheet"}/
+    %title= @page_title || 'Myurls'
+  %body.font-sans.antialiased{:class => @body_class}
     = haml :header
     = yield
     = haml :footer
     %script{:src => "/javascripts/lib/jquery-3.4.1.min.js"}
     %script{:src => "/javascripts/lib/clipboard.min.js"}
-    %script{:src => "/javascripts/application.js"}
+    %script{:src => "/javascripts/application.js?v=20260717-3"}

@@ -26,6 +26,16 @@ module Myurls
     end
 
     get '/' do
+      if request.host == ENV.fetch('XIP_WEB_HOST', 'xip.1gb.xyz')
+        @page_title = 'xip.1gb.xyz — IP addresses as hostnames'
+        @site_name = 'XIP.1GB.XYZ'
+        @body_class = 'xip-page'
+        return haml :xip
+      end
+
+      @page_title = '1gb.xyz — Small links, no noise'
+      @site_name = '1GB.XYZ'
+      @body_class = 'myurls-page'
       @url = request.host
       unless request.port == 80 || request.port == 443
         @url += ":#{request.port}"
