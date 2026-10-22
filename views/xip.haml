@@ -1,10 +1,9 @@
 %main.xip-shell
   %section.xip-hero
-    .xip-kicker DNS FOR HUMANS
     %h1
-      Put an IP address
+      An IP address.
       %br/
-      %span inside a hostname.
+      A hostname.
     %p.xip-intro
       No hosts file. No local DNS setup. Use dotted or dashed IPv4 addresses for local development, callbacks, certificates, and quick device testing.
 
@@ -14,27 +13,24 @@
         %input#xip-ip{:type => "text", :value => "127.0.0.1", :inputmode => "decimal", :autocomplete => "off", :spellcheck => "false"}/
         %button#xip-copy.copy-btn{"data-clipboard-target" => "#xip-result", :type => "button"} Copy hostname
       %code#xip-result 127-0-0-1.xip.1gb.xyz
-      %span#xip-status.xip-status Ready to resolve
+      %span#xip-status.xip-status{:role => "status", "aria-live" => "polite"} Ready to resolve
 
   %section.xip-grid
     %article.xip-card
-      %span.xip-card-number 01
       %h2 Dotted format
       %code 192.168.1.20.xip.1gb.xyz
       %p Reads naturally and resolves directly to 192.168.1.20.
     %article.xip-card
-      %span.xip-card-number 02
       %h2 Dashed format
       %code 192-168-1-20.xip.1gb.xyz
       %p Safer in tools that treat dots as hostname boundaries.
     %article.xip-card
-      %span.xip-card-number 03
       %h2 Add a prefix
       %code app.10-0-0-8.xip.1gb.xyz
       %p Name services while keeping the embedded address discoverable.
 
   %section.xip-command
     %div
-      %span Verify it
-      %strong One command, one answer.
+      %h2 Check the answer.
+      %p Verify a hostname from your terminal.
     %code dig 127-0-0-1.xip.1gb.xyz A +short

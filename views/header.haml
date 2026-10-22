@@ -1,10 +1,10 @@
-%nav.site-nav
+%nav.site-nav{:"aria-label" => "Main navigation"}
   .site-nav-inner
     %a.site-logo{href: "/"}= @site_name || 'MYURLS'
-    - if @body_class == 'myurls-page'
-      .site-nav-meta
-        %span 1 GB OF INTERNET
-    - elsif @body_class == 'xip-page'
-      .site-nav-meta
-        %span DYNAMIC DNS
-        %a{href: "https://1gb.xyz"} Short links
+    .site-nav-meta
+      - if @body_class == 'xip-page'
+        %a{href: "https://1gb.xyz"} Short links ↗
+        %a{href: "/", "aria-current" => "page"} IP hostnames
+      - else
+        %a{href: "/", "aria-current" => (@body_class == 'myurls-page' ? 'page' : nil)} Short links
+        %a{href: "https://xip.1gb.xyz"} IP hostnames ↗

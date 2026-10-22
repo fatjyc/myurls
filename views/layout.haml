@@ -1,12 +1,13 @@
 !!!
-%html{:lang => "en", :class => "bg-gray-50"}
+%html{:lang => "en"}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{:charset => "utf-8"}/
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
     %link{:href => "/favicon.ico", :rel => "icon", :type => "image/x-icon"}/
     %link{:href => "/stylesheets/lib/tailwind.min.css", :rel => "stylesheet"}/
-    %link{:href => "/stylesheets/main.css?v=20260717-3", :rel => "stylesheet"}/
+    %meta{:name => "theme-color", :content => "#101516"}/
+    %link{:href => "/stylesheets/main.css?v=20261022-1", :rel => "stylesheet"}/
     %title= @page_title || 'Myurls'
   %body.font-sans.antialiased{:class => @body_class}
     = haml :header
@@ -14,4 +15,4 @@
     = haml :footer
     %script{:src => "/javascripts/lib/jquery-3.4.1.min.js"}
     %script{:src => "/javascripts/lib/clipboard.min.js"}
-    %script{:src => "/javascripts/application.js?v=20260717-3"}
+    %script{:src => "/javascripts/application.js?v=20261022-1"}

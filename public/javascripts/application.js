@@ -77,14 +77,14 @@ $(function () {
     }
     var urlVal = url.val().trim();
     if (urlVal.length === 0) {
-      inputTooltip.css("visibility", "visible");
+      inputTooltip.show();
       return;
     }
     var expression =
       /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
     var regex = new RegExp(expression);
     if (!urlVal.match(regex)) {
-      inputTooltip.css("visibility", "visible");
+      inputTooltip.show();
       return;
     }
     submitting = true;
@@ -96,16 +96,17 @@ $(function () {
       submitting = false;
       $("#start").removeAttr("disabled");
       bar.toggleClass("flipped");
+      sUrl.trigger("focus");
       // front.toggleClass("show");
       // back.toggleClass("show");
     }).fail(function () {
-      inputTooltip.css("visibility", "visible");
+      inputTooltip.show();
       submitting = false;
       $("#start").removeAttr("disabled");
     });
   };
 
-  $("#start").on("click", function (e) {
+  $("#front form").on("submit", function (e) {
     e.preventDefault();
     submit();
   });
@@ -114,17 +115,13 @@ $(function () {
     sUrl.val("");
     url.val("");
     bar.toggleClass("flipped");
+    url.trigger("focus");
     // back.toggleClass("show");
     // front.toggleClass("show");
   });
 
   url.on("input", function (e) {
-    inputTooltip.css("visibility", "hidden");
+    inputTooltip.hide();
   });
 
-  url.on("keyup", function (e) {
-    if (e.which === 13) {
-      submit();
-    }
-  });
 });

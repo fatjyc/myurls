@@ -19,6 +19,6 @@ class MyurlsTest < Minitest::Test
 
     assert last_response.ok?
     assert_includes last_response.body, '127-0-0-1.xip.1gb.xyz'
-    assert_includes last_response.body, 'Put an IP address'
+    assert_includes last_response.body, 'An IP address.'
   end
 end
